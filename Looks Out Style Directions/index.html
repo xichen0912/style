@@ -1,0 +1,115 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Looks Out Style Directions</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: a short project header, three review tips, then a two-column gallery of style cards (one column on phones). Berkeley blue and California gold as the only accents. */
+:root{
+  --bg:#F3F3EF;
+  --card:#FFFFFF;
+  --ink:#16171B;
+  --mute:#5E5F66;
+  --line:rgba(22,23,27,.12);
+  --blue:#003262;
+  --gold:#FDB515;
+  --chip:#ECECE6;
+  --f-d:'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif;
+  --f:'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+  --f-m:'IBM Plex Mono', ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --bg:#0F1013; --card:#181A1F; --ink:#EDEDEF; --mute:#A3A4AC; --line:rgba(237,237,239,.12); --blue:#8DB4E8; --gold:#FDB515; --chip:#23262D; color-scheme:dark; } }
+:root[data-theme="dark"]{ --bg:#0F1013; --card:#181A1F; --ink:#EDEDEF; --mute:#A3A4AC; --line:rgba(237,237,239,.12); --blue:#8DB4E8; --gold:#FDB515; --chip:#23262D; color-scheme:dark; }
+body{background:var(--bg);color:var(--ink);font-family:var(--f);font-size:16px;line-height:1.5}
+.wrap{max-width:1240px;margin:0 auto;padding-block:48px 72px;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));display:flex;flex-direction:column;gap:40px}
+header{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:32px;align-items:end}
+@media (max-width:820px){ header{grid-template-columns:minmax(0,1fr)} }
+.eyebrow{font-family:var(--f-m);font-size:12px;letter-spacing:1.4px;text-transform:uppercase;color:var(--mute);display:flex;align-items:center;gap:10px}
+.eyebrow i{width:10px;height:10px;border-radius:50%;background:var(--gold);display:inline-block}
+h1{margin:14px 0 0;font-family:var(--f-d);font-weight:800;font-size:clamp(36px,5.4vw,64px);line-height:1;letter-spacing:-1.5px;text-wrap:balance}
+h1 em{font-style:normal;color:var(--blue)}
+.lede{margin:0;max-width:60ch;font-size:18px;color:var(--mute)}
+.lede b{color:var(--ink);font-weight:600}
+.tips{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:820px){ .tips{grid-template-columns:minmax(0,1fr)} }
+.tip{display:flex;gap:14px;align-items:flex-start;padding:16px 18px;border-radius:14px;background:var(--card);border:1px solid var(--line)}
+.tip span{flex:none;width:30px;height:30px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--f-m);font-size:13px}
+:root[data-theme="dark"] .tip span{color:#0F1013}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .tip span{color:#0F1013} }
+.tip p{margin:2px 0 0;font-size:15px;color:var(--mute)}
+.tip b{display:block;color:var(--ink);font-weight:600}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}
+@media (max-width:820px){ .grid{grid-template-columns:minmax(0,1fr)} }
+.card{display:flex;flex-direction:column;border-radius:20px;overflow:hidden;background:var(--card);border:1px solid var(--line);color:inherit;text-decoration:none;transition:transform .2s ease, box-shadow .2s ease}
+.card:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(0,0,0,.12)}
+.card:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.thumb{position:relative;aspect-ratio:1392/760;max-width:100%;background:var(--chip);overflow:hidden}
+.thumb img{display:block;width:100%;height:100%;object-fit:cover;object-position:top left}
+.num{position:absolute;left:14px;top:14px;padding:4px 10px;border-radius:8px;background:rgba(22,23,27,.82);color:#fff;font-family:var(--f-m);font-size:12px;letter-spacing:1px}
+.body{padding:20px 22px 22px;display:flex;flex-direction:column;gap:10px;flex:1}
+.body .from{font-family:var(--f-m);font-size:12px;letter-spacing:.8px;text-transform:uppercase;color:var(--mute)}
+.body h2{margin:0;font-family:var(--f-d);font-weight:700;font-size:28px;line-height:1.1;letter-spacing:-.4px}
+.body p{margin:0;color:var(--mute);max-width:60ch}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
+.tags span{padding:3px 10px;border-radius:999px;background:var(--chip);font-size:13px;font-weight:500}
+.open{margin-top:auto;padding-top:8px;display:flex;align-items:center;gap:8px;font-weight:600;color:var(--blue)}
+.open svg{transition:transform .2s ease}
+.card:hover .open svg{transform:translateX(4px)}
+@media (min-width:821px){ .card:last-child{grid-column:1/-1;flex-direction:row} .card:last-child .thumb{flex:0 0 calc(50% - 14px)} .card:last-child .body{padding:28px 30px} }
+footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;padding-top:24px;border-top:1px solid var(--line);font-size:14px;color:var(--mute)}
+@media (prefers-reduced-motion: reduce){ *{transition:none !important} }
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <div class="eyebrow"><i></i>Berkeley Looks Out · visual directions</div>
+      <h1>Seven ways to draw <em>the same campus</em></h1>
+    </div>
+    <p class="lede">Every page shows the same two screens: the <b>Resource Wall</b> in the Wurster Hall lobby and the <b>Campus Map</b> on a phone. People, buildings and the flow between the two screens are the same throughout. Only the visual style changes.</p>
+  </header>
+
+  <section class="tips" aria-label="How to review">
+    <div class="tip"><span>1</span><div><b>Open a style</b><p>Each card opens a working prototype. Use “All styles” at the bottom left to come back.</p></div></div>
+    <div class="tip"><span>2</span><div><b>Press “Someone walks in”</b><p>Watch the wall greet the new person and the phone map update at the same moment.</p></div></div>
+    <div class="tip"><span>3</span><div><b>Try the phone</b><p>Filter by kind of help, tap a building, and send a request to a neighbor.</p></div></div>
+  </section>
+
+  <section class="grid" aria-label="Styles">
+    <a class="card" href="styles/01-pixel-go.html">
+      <div class="thumb"><img src="thumbs/01-pixel-go.jpg" alt="Pixel Go style: a glowing night-time resource wall beside a tilted 3D campus map"><span class="num">01</span></div>
+      <div class="body"><span class="from">After Pokémon GO + Gather</span><h2>Pixel Go</h2><p>Day and night modes. A tilted 3D campus with floating resource stops and pixel avatars, beside a wall lit by one soft, glowing color.</p><div class="tags"><span>Day / night</span><span>Pixel avatars</span><span>3D tilt</span></div><span class="open">Open style <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+    </a>
+    <a class="card" href="styles/02-sidewalk.html">
+      <div class="thumb"><img src="thumbs/02-sidewalk.jpg" alt="Sidewalk Minimal style: warm black background, grey isometric campus, red highlights"><span class="num">02</span></div>
+      <div class="body"><span class="from">After MIT Senseable · Sidewalk AI</span><h2>Sidewalk Minimal</h2><p>Warm black, a translucent grey isometric campus and a single red. A building turns red when someone inside is offering help.</p><div class="tags"><span>Isometric</span><span>One accent</span><span>Quiet</span></div><span class="open">Open style <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+    </a>
+    <a class="card" href="styles/03-sketchbook.html">
+      <div class="thumb"><img src="thumbs/03-sketchbook.jpg" alt="Sketchbook style: white paper, ink line drawings, leaf-green accents and hand lettering"><span class="num">03</span></div>
+      <div class="body"><span class="from">After MIT Senseable · Visual AI book</span><h2>Sketchbook</h2><p>White paper, ink line drawing and one leaf green, with italic serif and hand lettering. A drawn arrow points at whoever just walked in.</p><div class="tags"><span>Hand-drawn</span><span>Editorial</span><span>Leaf squares</span></div><span class="open">Open style <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+    </a>
+    <a class="card" href="styles/04-points-of-light.html">
+      <div class="thumb"><img src="thumbs/04-points-of-light.jpg" alt="Points of Light style: glowing particle icons joined by threads of light on black"><span class="num">04</span></div>
+      <div class="body"><span class="from">After MIT Senseable · Visual AI</span><h2>Points of Light</h2><p>A slowly turning field of light. Each resource is a pixel icon made of glowing particles, and threads connect people who offer similar help.</p><div class="tags"><span>Particles</span><span>Drag to rotate</span><span>Dark</span></div><span class="open">Open style <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+    </a>
+    <a class="card" href="styles/05-mini-roads.html">
+      <div class="thumb"><img src="thumbs/05-mini-roads.jpg" alt="Mini Roads style: isometric toy town with colored houses, roads and small cars"><span class="num">05</span></div>
+      <div class="body"><span class="from">After Mini Motorways</span><h2>Mini Roads</h2><p>An isometric toy town. Each person is a small colored house with a driveway into Wurster, and cars carry help across a tilted Berkeley campus.</p><div class="tags"><span>Isometric</span><span>Color = kind of help</span><span>Traffic</span></div><span class="open">Open style <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+    </a>
+    <a class="card" href="styles/06-pixel-city.html">
+      <div class="thumb"><img src="thumbs/06-pixel-city.jpg" alt="Pixel City style: dense isometric pixel art plaza with stalls and lit signs"><span class="num">06</span></div>
+      <div class="body"><span class="from">After eBoy</span><h2>Pixel City</h2><p>Dense isometric pixel art. Neighbors run small stalls with lit signs on the Wurster plaza, and the phone is a pixel Berkeley you drag to explore.</p><div class="tags"><span>Pixel art</span><span>Dense detail</span><span>Drag to explore</span></div><span class="open">Open style <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+    </a>
+    <a class="card" href="styles/07-cozy-island.html">
+      <div class="thumb"><img src="thumbs/07-cozy-island.jpg" alt="Cozy Island style: grass tiers, a river, a beach and round villagers with speech bubbles"><span class="num">07</span></div>
+      <div class="body"><span class="from">After Animal Crossing</span><h2>Cozy Island</h2><p>Grass tiers, rivers and a beach. Round villagers say what they offer in speech bubbles, and the campus becomes an island with the Bay to the west.</p><div class="tags"><span>Cozy</span><span>Speech bubbles</span><span>Storybook</span></div><span class="open">Open style <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+    </a>
+  </section>
+
+  <footer>
+    <span>Concept sketches for team discussion. Building positions on the campus maps are approximate.</span>
+    <span>Each style borrows a visual language only; all characters and layouts are original.</span>
+  </footer>
+</div>
+
+</body></html>

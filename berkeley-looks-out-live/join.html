@@ -41,6 +41,10 @@ input:focus{border-color:var(--blue);box-shadow:4px 4px 0 var(--gold)}
 .tile[aria-pressed=true]{background:var(--blue);color:var(--paper);box-shadow:4px 4px 0 var(--gold)}
 .tile[aria-pressed=true]::after{content:"";position:absolute;right:6px;top:6px;width:10px;height:10px;background:var(--gold)}
 .count{font-size:14px;color:var(--mute);margin:10px 0 0}
+.addrow{display:flex;gap:8px}
+.addrow input{flex:1}
+.addrow button{flex:none;width:76px;border:3px solid var(--ink);background:var(--paper);color:var(--ink);font:400 12px var(--f-d);letter-spacing:1.5px;cursor:pointer}
+.tile.custom span{word-break:break-word}
 /* preview of how it looks on the wall */
 .wallcard{position:relative;overflow:hidden;background:#04060E;color:#DCE6FF;padding:26px 16px 22px;display:flex;flex-direction:column;align-items:center;gap:10px;border:3px solid var(--ink)}
 .wallcard::before{content:"";position:absolute;left:50%;top:40px;width:220px;height:220px;margin-left:-110px;border-radius:50%;background:radial-gradient(circle,rgba(90,128,255,.45),transparent 64%);filter:blur(6px);animation:br 5s ease-in-out infinite}
@@ -124,8 +128,10 @@ input:focus{border-color:var(--blue);box-shadow:4px 4px 0 var(--gold)}
   <form id="fProfile" novalidate>
     <label class="f" for="name">NAME ON THE WALL</label>
     <input id="name" type="text" maxlength="14" autocomplete="nickname" placeholder="First name or nickname">
-    <label class="f">I CAN HELP WITH <span style="color:var(--mute)">(UP TO 3)</span></label>
+    <label class="f">I CAN HELP WITH</label>
     <div class="grid" id="kinds"></div>
+    <label class="f" for="custom">SOMETHING ELSE?</label>
+    <div class="addrow"><input id="custom" type="text" maxlength="24" placeholder="e.g. EpiPen, jumper cables, ASL" autocomplete="off"><button type="button" id="addCustom">ADD</button></div>
     <div class="count" id="kCount">Pick at least one.</div>
     <div class="err" id="pErr"></div>
     <button class="btn" type="submit">NEXT</button>
@@ -137,13 +143,8 @@ input:focus{border-color:var(--blue);box-shadow:4px 4px 0 var(--gold)}
   <h2>Show it on the wall?</h2>
   <p>This is what people in the building will see.</p>
   <div class="wallcard" id="preview"></div>
-  <label class="f">SHOW IT FOR</label>
-  <div class="opts" id="dur">
-    <label class="opt"><input type="radio" name="dur" value="3"> The next 3 hours</label>
-    <label class="opt"><input type="radio" name="dur" value="day" checked> Today</label>
-    <label class="opt"><input type="radio" name="dur" value="0"> Until I turn it off</label>
-  </div>
-  <button class="btn" id="showBtn" type="button">SHOW ME ON THE WALL</button>
+  <p class="small" style="margin-top:14px">Only your name and what you can help with are shown. You can take it down anytime.</p>
+  <button class="btn" id="showBtn" type="button">YES, SHOW ME ON THE WALL</button>
   <button class="btn ghost" id="skipBtn" type="button">NOT NOW · JUST SAVE</button>
 </section>
 
@@ -202,7 +203,7 @@ window.BLO = (function(){
   /* meeting places offered when someone accepts a request — edit freely */
   var SPOTS = (qs.get('spots') ? qs.get('spots').split('|') : ['Lobby · by the resource wall','Makerspace · ground floor','Commons · 2nd floor','Studios · 3rd floor','Front steps · outside']);
   var FA = 'f‌irst aid';
-  var KINDS = [['kit',FA],['helmet','NERT · verified'],['bike','bike repairs'],['wrench','basic repairs'],['plant','plant care'],['laptop','tech help'],['pot','cooking'],['books','study help'],['camera','photography'],['bubble','speaks a language'],['tent','camping gear'],['heart','listening ear']];
+  var KINDS = [['kit',FA],['heart','CPR certified'],['helmet','NERT · verified'],['spray','Narcan'],['car','emergency ride'],['bubble','translation'],['laptop','tech emergency'],['wrench','tools · quick fix'],['charger','phone charger'],['umbrella','umbrella'],['drop','period products'],['bike','bike pump']];
   function label(k){ for (var i=0;i<KINDS.length;i++) if (KINDS[i][0]===k) return KINDS[i][1]; return k; }
 
   function fallbackHash(s){ var h1=0x811c9dc5, h2=0x01000193; for (var i=0;i<s.length;i++){ h1=Math.imul(h1^s.charCodeAt(i),16777619); h2=Math.imul(h2+s.charCodeAt(i),2654435761); } return ((h1>>>0).toString(16)+(h2>>>0).toString(16)).padStart(16,'0'); }
@@ -267,6 +268,12 @@ window.BLO_ICONS = {
   camera:["....####.....","############.","#..........#.","#...####...#.","#..#....#..#.","#..#....#..#.","#...####...#.","#..........#.","############."],
   tent:["......#......",".....#.#.....","....#...#....","...#..#..#...","..#..#.#..#..",".#..#...#..#.","#..#.....#..#","#############"],
   heart:[".###...###.","#...#.#...#","#....#....#","#.........#",".#.......#.","..#.....#..","...#...#...","....#.#....",".....#....."],
+  spray:[".....##.....",".....##.....","....####....","....#..#....","..########..","..#......#..","..#.####.#..","..#.#..#.#..","..#.####.#..","..#......#..","..########.."],
+  charger:["...######...","..#......#..","..#...#..#..","..#..##..#..","..#.####.#..","..#..##..#..","..#..#...#..","..#......#..","..#..##..#..","...######..."],
+  umbrella:[".....##.....","...######...",".##########.","############","#....##....#",".....##.....",".....##.....",".....##.....",".....##..#..","......###..."],
+  drop:[".....##.....","....####....","....####....","...######...","..########..","..##.#####..","..#.######..","..########..","...######...","....####...."],
+  car:["...######.....","..#...#..#....",".#....#...#...","##############","#............#","#.##......##.#","##############",".###......###."],
+  star:["....##....","....##....","...####...","##########",".########.","..######..","..######..",".###..###.",".##....##.","##......##"],
   plus:["....##....","....##....","....##....","##########","##########","....##....","....##....","....##...."]
 };
 
@@ -277,8 +284,10 @@ var I = BLO_ICONS, $ = function(id){ return document.getElementById(id); };
 var store = { get:function(k){ try{ return JSON.parse(localStorage.getItem('blo-'+k)); }catch(e){ return null; } }, set:function(k,v){ try{ localStorage.setItem('blo-'+k, JSON.stringify(v)); }catch(e){} }, del:function(k){ try{ localStorage.removeItem('blo-'+k); }catch(e){} } };
 $('room').textContent = BLO.ROOM.replace(/-/g,' ').toUpperCase();
 
+function iconKey(k){ return I[k] ? k : 'star'; }
+function firstIcon(list){ for (var i=0;i<list.length;i++) if (I[list[i]] && list[i] !== 'star') return list[i]; return 'star'; }
 function iconCanvas(key, px, color){
-  var rows = I[key], w = 0; rows.forEach(function(r){ if (r.length > w) w = r.length; });
+  var rows = I[key] || I.star, w = 0; rows.forEach(function(r){ if (r.length > w) w = r.length; });
   var c = document.createElement('canvas'); c.width = w*px; c.height = rows.length*px;
   var g = c.getContext('2d'); g.fillStyle = color;
   rows.forEach(function(r, y){ for (var x=0;x<r.length;x++) if (r[x] === '#') g.fillRect(x*px+1, y*px+1, px-1, px-1); });
@@ -340,21 +349,46 @@ BLO.KINDS.forEach(function(k){
   var s = document.createElement('span'); s.textContent = k[1]; b.appendChild(s);
   b.addEventListener('click', function(){
     var i = picked.indexOf(k[0]);
-    if (i >= 0) picked.splice(i,1); else { if (picked.length >= 3) picked.shift(); picked.push(k[0]); }
+    if (i >= 0) picked.splice(i,1); else picked.push(k[0]);
     syncTiles();
   });
   $('kinds').appendChild(b);
 });
+function isPreset(k){ return BLO.KINDS.some(function(x){ return x[0] === k; }); }
+function customTile(text){
+  var b = document.createElement('button'); b.type = 'button'; b.className = 'tile custom'; b.dataset.k = text; b.setAttribute('aria-pressed','true');
+  b.appendChild(iconCanvas('star', 3, '#FAF6EC'));
+  var s = document.createElement('span'); s.textContent = text; b.appendChild(s);
+  b.addEventListener('click', function(){ var i = picked.indexOf(text); if (i >= 0) picked.splice(i,1); b.remove(); syncTiles(); });
+  $('kinds').appendChild(b);
+}
+function addCustom(){
+  var v = $('custom').value.replace(/\s+/g,' ').trim().toLowerCase().slice(0,24);
+  if (!v) return;
+  var preset = BLO.KINDS.filter(function(x){ return x[1].replace('\u200c','') === v; })[0];
+  if (preset){ if (picked.indexOf(preset[0]) < 0) picked.push(preset[0]); }
+  else if (picked.indexOf(v) < 0){ picked.push(v); customTile(v); }
+  $('custom').value = ''; syncTiles();
+}
+$('addCustom').addEventListener('click', addCustom);
+$('custom').addEventListener('keydown', function(e){ if (e.key === 'Enter'){ e.preventDefault(); addCustom(); } });
 function syncTiles(){
   Array.prototype.forEach.call($('kinds').children, function(b){
+    if (b.classList.contains('custom')) return;
     var on = picked.indexOf(b.dataset.k) >= 0; b.setAttribute('aria-pressed', String(on));
     var c = b.querySelector('canvas'); c.replaceWith(iconCanvas(b.dataset.k, 3, on ? '#FAF6EC' : '#0b1b3f'));
   });
-  $('kCount').textContent = picked.length ? picked.length + ' picked' + (picked.length === 3 ? ' · that’s the max' : '') : 'Pick at least one.';
+  $('kCount').textContent = picked.length ? picked.length + ' picked' : 'Pick at least one.';
 }
-function openProfile(){ $('name').value = me.n || ''; picked = (me.k || []).slice(); syncTiles(); show('s-profile'); }
+function openProfile(){
+  $('name').value = me.n || ''; picked = (me.k || []).slice();
+  Array.prototype.slice.call($('kinds').querySelectorAll('.custom')).forEach(function(b){ b.remove(); });
+  picked.forEach(function(k){ if (!isPreset(k)) customTile(k); });
+  syncTiles(); show('s-profile');
+}
 $('fProfile').addEventListener('submit', function(e){
   e.preventDefault();
+  if ($('custom').value.trim()) addCustom();
   var n = $('name').value.trim();
   if (!n){ $('pErr').textContent = 'Add a name for the wall.'; return; }
   if (!picked.length){ $('pErr').textContent = 'Pick at least one thing you can help with.'; return; }
@@ -366,7 +400,7 @@ $('fProfile').addEventListener('submit', function(e){
 /* preview card */
 function renderPreview(box){
   box.innerHTML = '';
-  box.appendChild(iconCanvas(me.k[0], 6, '#B4C8FF'));
+  box.appendChild(iconCanvas(firstIcon(me.k), 6, '#B4C8FF'));
   var nm = document.createElement('div'); nm.className = 'nm'; nm.textContent = me.n; box.appendChild(nm);
   var rs = document.createElement('div'); rs.className = 'rs'; rs.textContent = me.k.map(BLO.label).join(' · '); box.appendChild(rs);
   var tg = document.createElement('div'); tg.className = 'tag'; tg.textContent = 'ON THE WALL · ' + BLO.ROOM.replace(/-/g,' ').toUpperCase(); box.appendChild(tg);
@@ -379,7 +413,7 @@ function untilFrom(v){
   return 0;
 }
 $('showBtn').addEventListener('click', function(){
-  me.show = true; me.until = untilFrom(document.querySelector('input[name=dur]:checked').value); publishMe(); renderDone();
+  me.show = true; me.until = 0; publishMe(); renderDone();
 });
 $('skipBtn').addEventListener('click', function(){ me.show = false; me.until = 0; publishMe(); renderDone(); });
 
@@ -428,7 +462,7 @@ function renderDone(){ joinedHub(); show('s-done'); renderHub(); }
 function renderHub(){
   /* you */
   var on = live(), mc = $('meCard'); mc.innerHTML = '';
-  mc.appendChild(iconCanvas(me.k[0], 4, '#0b1b3f'));
+  mc.appendChild(iconCanvas(firstIcon(me.k), 4, '#0b1b3f'));
   var tx = el('div','tx'); var b = el('b', null, me.n); tx.appendChild(b);
   var sp = el('span'); if (on){ var d0 = el('i','dotlive'); sp.appendChild(d0); } sp.appendChild(document.createTextNode((on ? 'On the wall · ' : 'Not on the wall · ') + me.k.map(BLO.label).join(' · '))); tx.appendChild(sp); mc.appendChild(tx);
   var tg = el('button', 'pill' + (on ? ' off' : ''), on ? 'TAKE OFF' : 'SHOW ME'); tg.type = 'button';
@@ -494,7 +528,7 @@ function renderHub(){
   if (!ids.length) list.appendChild(el('div','empty','No one else is on the wall right now. Check back soon.'));
   ids.forEach(function(id){
     var d = others[id], row = el('div','prow');
-    row.appendChild(iconCanvas(BLO_ICONS[d.k[0]] ? d.k[0] : 'heart', 3, '#002676'));
+    row.appendChild(iconCanvas(firstIcon(d.k), 3, '#002676'));
     var tx = el('div','tx'); tx.appendChild(el('b', null, d.n || 'someone')); tx.appendChild(el('span', null, d.k.map(BLO.label).join(' · ').replace(/‌/g,''))); row.appendChild(tx);
     var o = outgoing[id], a = el('button','ask', o ? (o.status === 'pending' ? 'SENT' : o.status === 'declined' ? 'BUSY' : 'MEET') : 'ASK'); a.type = 'button';
     a.disabled = !!o; a.onclick = function(){ openAsk(id, d); };

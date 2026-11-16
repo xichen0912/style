@@ -2443,7 +2443,7 @@ window.BLO = (function(){
   /* meeting places offered when someone accepts a request — edit freely */
   var SPOTS = (qs.get('spots') ? qs.get('spots').split('|') : ['Lobby · by the resource wall','Makerspace · ground floor','Commons · 2nd floor','Studios · 3rd floor','Front steps · outside']);
   var FA = 'f‌irst aid';
-  var KINDS = [['kit',FA],['helmet','NERT · verified'],['bike','bike repairs'],['wrench','basic repairs'],['plant','plant care'],['laptop','tech help'],['pot','cooking'],['books','study help'],['camera','photography'],['bubble','speaks a language'],['tent','camping gear'],['heart','listening ear']];
+  var KINDS = [['kit',FA],['heart','CPR certified'],['helmet','NERT · verified'],['spray','Narcan'],['car','emergency ride'],['bubble','translation'],['laptop','tech emergency'],['wrench','tools · quick fix'],['charger','phone charger'],['umbrella','umbrella'],['drop','period products'],['bike','bike pump']];
   function label(k){ for (var i=0;i<KINDS.length;i++) if (KINDS[i][0]===k) return KINDS[i][1]; return k; }
 
   function fallbackHash(s){ var h1=0x811c9dc5, h2=0x01000193; for (var i=0;i<s.length;i++){ h1=Math.imul(h1^s.charCodeAt(i),16777619); h2=Math.imul(h2+s.charCodeAt(i),2654435761); } return ((h1>>>0).toString(16)+(h2>>>0).toString(16)).padStart(16,'0'); }
@@ -2508,6 +2508,12 @@ window.BLO_ICONS = {
   camera:["....####.....","############.","#..........#.","#...####...#.","#..#....#..#.","#..#....#..#.","#...####...#.","#..........#.","############."],
   tent:["......#......",".....#.#.....","....#...#....","...#..#..#...","..#..#.#..#..",".#..#...#..#.","#..#.....#..#","#############"],
   heart:[".###...###.","#...#.#...#","#....#....#","#.........#",".#.......#.","..#.....#..","...#...#...","....#.#....",".....#....."],
+  spray:[".....##.....",".....##.....","....####....","....#..#....","..########..","..#......#..","..#.####.#..","..#.#..#.#..","..#.####.#..","..#......#..","..########.."],
+  charger:["...######...","..#......#..","..#...#..#..","..#..##..#..","..#.####.#..","..#..##..#..","..#..#...#..","..#......#..","..#..##..#..","...######..."],
+  umbrella:[".....##.....","...######...",".##########.","############","#....##....#",".....##.....",".....##.....",".....##.....",".....##..#..","......###..."],
+  drop:[".....##.....","....####....","....####....","...######...","..########..","..##.#####..","..#.######..","..########..","...######...","....####...."],
+  car:["...######.....","..#...#..#....",".#....#...#...","##############","#............#","#.##......##.#","##############",".###......###."],
+  star:["....##....","....##....","...####...","##########",".########.","..######..","..######..",".###..###.",".##....##.","##......##"],
   plus:["....##....","....##....","....##....","##########","##########","....##....","....##....","....##...."]
 };
 
@@ -2523,19 +2529,19 @@ var stage=document.getElementById('stage');
 var wall=el('div','wall');
 wall.appendChild(el('div','blob b1')); wall.appendChild(el('div','blob b2')); wall.appendChild(el('div','blob b3'));
 var wi=el('div','wall-in');
-wi.innerHTML='<div class="wall-head"><h2>OUR BUILDING<br>OUR RESOURCES</h2><div class="live"><div class="bld" id="bld"></div><div class="cnt"><span class="dot"></span><span id="cnt">12 resources</span></div></div></div>';
+wi.innerHTML='<div class="wall-head"><h2>OUR BUILDING<br>OUR RESOURCES</h2><div class="live"><div class="bld" id="bld"></div><div class="cnt"><span class="dot"></span><span id="cnt">0 resources</span></div></div></div>';
 var grid=el('div','grid'); wi.appendChild(grid); wall.appendChild(wi);
-wall.appendChild(el('div','wall-foot','<div class="ticker"><span class="sq"></span><span id="tick">Only people who opted in appear here</span></div><div class="cta">SCAN TO ADD WHAT YOU CAN HELP WITH →</div>'));
+wall.appendChild(el('div','wall-foot','<div class="ticker"><span class="sq"></span><span id="tick">Be the first: scan the code to add what you can help with</span></div><div class="cta">SCAN TO ADD WHAT YOU CAN HELP WITH →</div>'));
 stage.appendChild(wall);
 var BLD_KEY='blo-wall-bld-'+BLO.ROOM;
 document.getElementById('bld').textContent=LS.get(BLD_KEY)||BLO.ROOM.replace(/-/g,' ').toUpperCase();
 
 var demoStart=[
-  {i:'kit',n:'alex',r:FA},{i:'helmet',n:'',r:'NERT · verified'},{i:'pot',n:'priya',r:'cooking'},{i:'plant',n:'leah',r:'plant care'},{i:'bike',n:'sam',r:'bike repairs'},
-  {i:'laptop',n:'chris',r:'tech help'},{i:'bubble',n:'taylor',r:'speaks spanish'},{i:'wrench',n:'jamie',r:'basic repairs'},{i:'books',n:'',r:'study help'},{i:'camera',n:'riley',r:'photography'},
-  {i:'tent',n:'drew',r:'camping gear'},{i:'heart',n:'emily',r:'listening ear'},null,null,'qr'
+  {i:'kit',n:'alex',r:FA},{i:'helmet',n:'',r:'NERT · verified'},{i:'heart',n:'priya',r:'CPR certified'},{i:'charger',n:'leah',r:'phone charger'},{i:'car',n:'sam',r:'emergency ride'},
+  {i:'laptop',n:'chris',r:'tech emergency'},{i:'bubble',n:'taylor',r:'translation · spanish'},{i:'wrench',n:'jamie',r:'tools · quick fix'},{i:'spray',n:'',r:'Narcan'},{i:'umbrella',n:'riley',r:'umbrella'},
+  {i:'drop',n:'drew',r:'period products'},{i:'bike',n:'emily',r:'bike pump'},null,null,'qr'
 ];
-var pool=[{i:'bike',n:'kai',r:'bike pump to lend'},{i:'kit',n:'mo',r:FA},{i:'bubble',n:'lin',r:'speaks mandarin'},{i:'helmet',n:'',r:'NERT · verified'},{i:'plant',n:'ana',r:'plant care'},{i:'pot',n:'',r:'cooking'},{i:'camera',n:'jo',r:'photography'},{i:'wrench',n:'ben',r:'basic repairs'}];
+var pool=[{i:'bike',n:'kai',r:'bike pump'},{i:'kit',n:'mo',r:FA},{i:'bubble',n:'lin',r:'translation · mandarin'},{i:'helmet',n:'',r:'NERT · verified'},{i:'charger',n:'ana',r:'phone charger'},{i:'heart',n:'',r:'CPR certified'},{i:'umbrella',n:'jo',r:'umbrella'},{i:'wrench',n:'ben',r:'tools · quick fix'}];
 pool.forEach(function(p){p.demo=true;});
 var slots=[];
 for(var r=0;r<3;r++){
@@ -2568,7 +2574,7 @@ function empty(idx){
 /* QR slot: phones scan this to join */
 demoStart.forEach(function(p,idx){
   if(p==='qr'){ var q=slots[idx]; q.fixed=true; q.el.classList.add('qr'); q.el.innerHTML='<div class="qrbox" id="qrbox"></div><div class="qrcap">SCAN · ADD YOURS</div>'; }
-  else if(p){ p.demo=true; fill(idx,p,false); }
+  // wall starts empty: people appear only when they scan in (D brings back demo people for testing)
 });
 function joinURL(){
   var saved=LS.get('blo-join-url');
@@ -2589,7 +2595,7 @@ function drawQR(){
 drawQR();
 
 function freeSlots(){ return slots.map(function(s,i){return (!s.p && !s.fixed)?i:-1;}).filter(function(i){return i>=0;}); }
-function updateCount(){ var n=slots.filter(function(s){return s.p;}).length; document.getElementById('cnt').textContent=n+(n===1?' resource':' resources'); renderList(); }
+function updateCount(){ var n=slots.reduce(function(t,s){return t+(s.p?(s.p.count||1):0);},0); document.getElementById('cnt').textContent=n+(n===1?' resource':' resources'); renderList(); }
 function setTick(t){ document.getElementById('tick').textContent=t; }
 function slotOf(id){ for(var i=0;i<slots.length;i++) if(slots[i].p&&slots[i].p.id===id) return i; return -1; }
 function arrive(p, quiet){
@@ -2628,8 +2634,8 @@ var people={};   // id -> latest message
 var waiting=[];  // phone people that did not fit yet
 function isLive(d){ return !!(d && d.show && d.k && d.k.length && (!d.until || d.until>Date.now())); }
 function personFrom(id,d){
-  var labels=d.k.slice(0,3).map(BLO.label);
-  return {id:id, i:(BLO_ICONS[d.k[0]]?d.k[0]:'heart'), n:String(d.n||'').slice(0,14), r:labels.slice(0,2).join(' · ')+(labels.length>2?' +1':''), demo:false};
+  var all=d.k.map(BLO.label), known=d.k.filter(function(k){return BLO_ICONS[k];});
+  return {id:id, i:(known[0]||'star'), n:String(d.n||'').slice(0,14), count:all.length, r:all.slice(0,2).map(function(t){return String(t).slice(0,24);}).join(' · ')+(all.length>2?' +'+(all.length-2):''), demo:false};
 }
 function applyPerson(id){
   var d=people[id], at=slotOf(id), live=isLive(d);
